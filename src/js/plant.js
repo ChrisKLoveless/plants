@@ -1,4 +1,4 @@
-let plant = {
+export let plant = {
     water: 0,
     soil: 0,
     light: 0
@@ -18,14 +18,14 @@ let plant = {
   //   }
   // }
 
-  const giveLight = (plant) => {
+  export const giveLight = (plant) => {
     return {
       ...plant,
       light: (plant.light || 0) + 1
     }
   }
 
-  const changePlantState = (plant, property) => {
+  export const changePlantState = (plant, property) => {
     return {
       ...plant,
       [property]: (plant[property] || 0) + 1
@@ -41,7 +41,7 @@ let plant = {
     }
   }
 
-  const stateControl = storeState();
+  export const stateControl = storeState();
 
   // const changeState = (state, prop, value) => ({
   //   ...state,
@@ -63,11 +63,11 @@ let plant = {
 
   // We create four functions using our function factory. 
 // We could easily create many more.
-const feed = changeState("soil")(1);
-const blueFood = changeState("soil")(5);
+export const feed = changeState("soil")(1);
+export const blueFood = changeState("soil")(5);
 
-const hydrate = changeState("water")(1);
-const superWater = changeState("water")(5);
+export const hydrate = changeState("water")(1);
+export const superWater = changeState("water")(5);
 
 
 
