@@ -1,8 +1,8 @@
 {
-  "name": "template",
+  "name": "plant",
   "version": "1.0.0",
   "repository": {
-    "url": "git+https://github.com/{USERNAME}/{REPONAME}.git"
+    "url": "git+https://github.com/ChrisKLoveless/plants.git"
   },
   "description": "",
   "main": "index.js",
