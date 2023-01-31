@@ -1,30 +1,49 @@
-// import { plant } from "./js/plant.js";
 import * as plantScript from "./js/plant.js";
+import * as $ from "jquery";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 
 
+const plantBuilder = plantScript.createPlant();
 window.onload = function() {
-
-  // This function has side effects because we are manipulating the DOM.
-  // Manipulating the DOM will always be a side effect. 
-  // Note that we only use one of our functions to alter soil. 
-  // You can easily add more.
-  document.getElementById('feed').onclick = function() {
-    const newState = plantScript.stateControl(plantScript.blueFood);
-    document.getElementById('soil-value').innerText = `Soil: ${newState.soil}`;
-  };
-
-  // This function doesn't actually do anything useful in this application 
-  // — it just demonstrates how we can "look" at the current state 
-  // (which the DOM is holding anyway). 
-  // However, students often do need the ability to see the current state 
-  // without changing it so it's included here for reference.
-  document.getElementById('show-state').onclick = function() {
-    // We just need to call stateControl() without arguments 
-    // to see our current state.
-    const currentState = plantScript.stateControl();
-    document.getElementById('soil-value').innerText = `Soil: ${currentState.soil}`;
-  };
+  $("#new-plant").on("click", ()=> {
+    addNewPlant();
+  });
 };
+
+function addNewPlant() {
+  const thisPlant = plantBuilder();
+  const thisState = plantScript.storeState();
+  createPlantElements(thisPlant, thisState);
+}
+
+function createPlantElements(plantObject, thisState){
+  // create jquery elements
+  const thisPlant = $(`
+      <div id=${plantObject.id}>      
+        <button id="feed-${plantObject.id}">Add soil</button>
+        <button id="show-state-${plantObject.id}">Current Stats</button>
+        <h1>Your Plant's Values</h1>
+        <h3><div id="soil-value-${plantObject.id}">0</div></h3>
+      </div>
+  `);
+
+  // Add elements to dom
+  $("#plants").append(thisPlant);
+  setTimeout(() => {
+    // Add feed event listener
+    $(`#feed-${plantObject.id}`).on("click", () => {
+      const incState = plantScript.changeState("soil")(5);
+      const newState = thisState(incState);
+      $(`#soil-value-${plantObject.id}`).text(`Soil: ${newState.soil}`);
+    });
+  
+    // Add show state event listener
+    $(`show-state-${plantObject.id}`).on("click", () => {
+      const currentState = plantScript.stateControl();
+      $(`soil-value-${plantObject.id}`).text(`Soil: ${currentState.soil}`);
+    });
+  }, 500);
+
+}
